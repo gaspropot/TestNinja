@@ -10,44 +10,40 @@ namespace TestNinja.UnitTests
     [TestFixture]
     public class MathTests
     {
+        private Fundamentals.Math _math;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _math = new Fundamentals.Math();
+        }
+
         [Test]
         public void Add_WhenCalled_ReturnSumOfArguements()
         {
-            var math = new Fundamentals.Math();
-
-            var result = math.Add(1, 2);
+            var result = _math.Add(1, 2);
 
             Assert.That(result, Is.EqualTo(3));
         }
 
         [Test]
-        public void Max_FirstArguementIsGreater_ReturnTheFirstArguement()
+        [TestCase(2, 1, 2)]
+        [TestCase(1, 2, 2)]
+        [TestCase(1, 1, 1)]
+        public void Max_WhenCalled_ReturnTheGreaterArguement(int a, int b, int expectedResult)
         {
-            var math = new Fundamentals.Math();
+            var result = _math.Max(a, b);
 
-            var result = math.Max(2, 1);
-
-            Assert.That(result, Is.EqualTo(2));
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         [Test]
-        public void Max_SecondArguementIsGreater_ReturnTheSecondArguement()
+        public void GetOddNumbers_LimitIsGreaterThanZero_ReturnOddNumbersUpToLimit()
         {
-            var math = new Fundamentals.Math();
+            var result = _math.GetOddNumbers(5);
 
-            var result = math.Max(1, 2);
-
-            Assert.That(result, Is.EqualTo(2));
-        }
-
-        [Test]
-        public void Max_ArguementsAreEqual_ReturnTheSameArguement()
-        {
-            var math = new Fundamentals.Math();
-
-            var result = math.Max(1, 1);
-
-            Assert.That(result, Is.EqualTo(1));
+            Assert.That(result, Is.EquivalentTo(new[] { 1, 3, 5 }));
+            Assert.That(result, Is.Unique);
         }
     }
 }
